@@ -30,8 +30,6 @@
         {
             btnVoltar = new Label();
             label1 = new Label();
-            label2 = new Label();
-            label3 = new Label();
             SuspendLayout();
             // 
             // btnVoltar
@@ -51,31 +49,9 @@
             label1.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.Location = new Point(277, 169);
             label1.Name = "label1";
-            label1.Size = new Size(201, 47);
+            label1.Size = new Size(385, 94);
             label1.TabIndex = 1;
-            label1.Text = "Em Breve...";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.Location = new Point(171, 216);
-            label2.Name = "label2";
-            label2.Size = new Size(444, 47);
-            label2.TabIndex = 2;
-            label2.Text = "Professores Taina e Andre";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.BackColor = Color.Transparent;
-            label3.Font = new Font("Segoe UI", 26.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label3.Location = new Point(171, 263);
-            label3.Name = "label3";
-            label3.Size = new Size(443, 47);
-            label3.TabIndex = 3;
-            label3.Text = "Volta para a aba principal";
+            label1.Text = "Em Breve... \r\nfiquei com preguiça :c\r\n";
             // 
             // Form5
             // 
@@ -83,8 +59,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackgroundImage = Properties.Resources._5153829;
             ClientSize = new Size(800, 450);
-            Controls.Add(label3);
-            Controls.Add(label2);
             Controls.Add(label1);
             Controls.Add(btnVoltar);
             Name = "Form5";
@@ -97,7 +71,5 @@
 
         private Label btnVoltar;
         private Label label1;
-        private Label label2;
-        private Label label3;
     }
 }

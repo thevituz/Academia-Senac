@@ -113,6 +113,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources._5153829;
             ClientSize = new Size(486, 450);
             Controls.Add(txbtelefone);
             Controls.Add(txbendereco);

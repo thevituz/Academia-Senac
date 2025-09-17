@@ -1,19 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using MySql.Data.MySqlClient;
+using MySqlConnector;
+using System.Data;
+using projeto_academia.Model;
 
 namespace projeto_academia
 {
     public partial class Form2 : Form
     {
-        string conexao = "Server=Localhost;Database=academia;User ID=root;password=;";
+        private readonly Banco banco = new Banco();
+
         public Form2()
         {
             InitializeComponent();
@@ -28,70 +24,58 @@ namespace projeto_academia
 
         private void btn_Click(object sender, EventArgs e)
         {
-            string nome = txbnome.Text;
-            string endereco = txbendereco.Text;
-            string telefone = txbtelefone.Text;
+            string nome = txbnome.Text.Trim();
+            string endereco = txbendereco.Text.Trim();
+            string telefone = txbtelefone.Text.Trim();
 
-            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(endereco) || string.IsNullOrEmpty(telefone)) 
+            if (string.IsNullOrEmpty(nome) || string.IsNullOrEmpty(endereco) || string.IsNullOrEmpty(telefone))
             {
-
                 MessageBox.Show("Por favor, preencha todos os campos.");
                 return;
-
             }
 
+            MySqlConnection? con = null;
             try
             {
-                using (MySqlConnection conn = new MySqlConnection(conexao))
+                con = banco.ObterConexao();
+                if (!banco.ConexaoAberta(con))
                 {
-                    conn.Open();
-
-                    string comandoSQL = "INSERT INTO aluno (nome, endereco, telefone) values (@nome, @endereco, @telefone)";
-
-                    using (MySqlCommand cmd = new MySqlCommand(comandoSQL, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@nome", nome);
-                        cmd.Parameters.AddWithValue("@endereco", endereco);
-                        cmd.Parameters.AddWithValue("@telefone", telefone);
-
-                        cmd.ExecuteNonQuery();
-                    }
+                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
                 }
 
+                string comandoSQL = "INSERT INTO aluno (nome, endereco, telefone) VALUES (@nome, @endereco, @telefone)";
 
-                MessageBox.Show("Aluno cadastrado com sucesso,");
+                using (MySqlCommand cmd = new MySqlCommand(comandoSQL, con))
+                {
+                    cmd.Parameters.AddWithValue("@nome", nome);
+                    cmd.Parameters.AddWithValue("@endereco", endereco);
+                    cmd.Parameters.AddWithValue("@telefone", telefone);
+
+                    int rows = cmd.ExecuteNonQuery();
+                    if (rows > 0)
+                        MessageBox.Show("Aluno cadastrado com sucesso.");
+                    else
+                        MessageBox.Show("Nenhum registro inserido.");
+                }
 
                 txbnome.Clear();
                 txbendereco.Clear();
                 txbtelefone.Clear();
             }
             catch (Exception ex)
-            { 
-                   MessageBox.Show("Erro ao Cadastrar: " +  ex.Message);
+            {
+                MessageBox.Show("Erro ao cadastrar: " + ex.Message);
             }
-                
-
-
+            finally
+            {
+                banco.Desconectar(con);
+            }
         }
 
-        private void txbnome_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txbendereco_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txbtelefone_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Form2_Load(object sender, EventArgs e)
-        {
-
-        }
+        private void txbnome_TextChanged(object sender, EventArgs e) { }
+        private void txbendereco_TextChanged(object sender, EventArgs e) { }
+        private void txbtelefone_TextChanged(object sender, EventArgs e) { }
+        private void Form2_Load(object sender, EventArgs e) { }
     }
 }

@@ -56,6 +56,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackgroundImage = Properties.Resources._5153829;
             ClientSize = new Size(800, 450);
             Controls.Add(btnvoltar);
             Controls.Add(dataGridView1);
