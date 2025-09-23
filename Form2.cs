@@ -34,42 +34,24 @@ namespace projeto_academia
                 return;
             }
 
-            MySqlConnection? con = null;
-            try
+            var aluno = new projeto_academia.Model.Aluno
             {
-                con = banco.ObterConexao();
-                if (!banco.ConexaoAberta(con))
-                {
-                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                Nome = nome,
+                Endereco = endereco,
+                Telefone = telefone
+            };
 
-                string comandoSQL = "INSERT INTO aluno (nome, endereco, telefone) VALUES (@nome, @endereco, @telefone)";
-
-                using (MySqlCommand cmd = new MySqlCommand(comandoSQL, con))
-                {
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@endereco", endereco);
-                    cmd.Parameters.AddWithValue("@telefone", telefone);
-
-                    int rows = cmd.ExecuteNonQuery();
-                    if (rows > 0)
-                        MessageBox.Show("Aluno cadastrado com sucesso.");
-                    else
-                        MessageBox.Show("Nenhum registro inserido.");
-                }
-
+            bool ok = aluno.CadastrarAluno();
+            if (ok)
+            {
+                MessageBox.Show("Aluno cadastrado com sucesso.");
                 txbnome.Clear();
                 txbendereco.Clear();
                 txbtelefone.Clear();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Erro ao cadastrar: " + ex.Message);
-            }
-            finally
-            {
-                banco.Desconectar(con);
+                MessageBox.Show("Erro ao cadastrar aluno. Verifique a conexão.");
             }
         }
 

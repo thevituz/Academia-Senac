@@ -41,43 +41,27 @@ namespace projeto_academia
                 return;
             }
 
-            MySqlConnection? con = null;
-            try
+            var instrutor = new projeto_academia.Model.Instrutor
             {
-                con = banco.ObterConexao();
-                if (!banco.ConexaoAberta(con))
-                {
-                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                Nome = nome,
+                Especialidade = especialidade,
+                Telefone = telefone
+                // Email se tiver campo
+            };
 
-                string comandoSQL = "INSERT INTO instrutor (nome, especialidade, telefone) VALUES (@nome, @especialidade, @telefone)";
-
-                using (MySqlCommand cmd = new MySqlCommand(comandoSQL, con))
-                {
-                    cmd.Parameters.AddWithValue("@nome", nome);
-                    cmd.Parameters.AddWithValue("@especialidade", especialidade);
-                    cmd.Parameters.AddWithValue("@telefone", telefone);
-
-                    int rows = cmd.ExecuteNonQuery();
-                    if (rows > 0)
-                        MessageBox.Show("Instrutor cadastrado com sucesso.");
-                    else
-                        MessageBox.Show("Nenhum registro inserido.");
-                }
-
+            bool ok = instrutor.CadastrarInstrutor();
+            if (ok)
+            {
+                MessageBox.Show("Instrutor cadastrado com sucesso.");
                 txtNomeinstrutor.Clear();
                 txtEspecialidade.Clear();
                 txtTelefone.Clear();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Erro ao cadastrar: " + ex.Message);
-            }
-            finally
-            {
-                banco.Desconectar(con);
+                MessageBox.Show("Erro ao cadastrar instrutor.");
             }
         }
+
     }
 }

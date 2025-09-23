@@ -65,11 +65,11 @@
             btnNome.BackColor = Color.White;
             btnNome.FlatStyle = FlatStyle.Flat;
             btnNome.Font = new Font("Microsoft JhengHei UI", 11.25F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnNome.Location = new Point(238, 193);
+            btnNome.Location = new Point(238, 265);
             btnNome.Name = "btnNome";
             btnNome.Size = new Size(145, 48);
             btnNome.TabIndex = 2;
-            btnNome.Text = "Aluno";
+            btnNome.Text = "Pagamentos";
             btnNome.UseVisualStyleBackColor = false;
             btnNome.Click += button1_Click;
             // 
@@ -78,7 +78,7 @@
             btnInstrutor.BackColor = Color.White;
             btnInstrutor.FlatStyle = FlatStyle.Flat;
             btnInstrutor.Font = new Font("Microsoft JhengHei UI", 9.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnInstrutor.Location = new Point(238, 269);
+            btnInstrutor.Location = new Point(238, 199);
             btnInstrutor.Name = "btnInstrutor";
             btnInstrutor.Size = new Size(145, 49);
             btnInstrutor.TabIndex = 3;

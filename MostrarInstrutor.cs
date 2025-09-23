@@ -32,43 +32,20 @@ namespace projeto_academia
                 return;
             }
 
-            string query = "DELETE FROM instrutor WHERE id_instrutor = @id_instrutor";
+            var instrutor = new projeto_academia.Model.Instrutor { IdInstrutor = idParaExcluir };
+            bool ok = instrutor.ApagarInstrutor();
 
-            MySqlConnection? con = null;
-            try
+            if (ok)
             {
-                con = banco.ObterConexao();
-                if (!banco.ConexaoAberta(con))
-                {
-                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                using (MySqlCommand cmd = new MySqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@id_instrutor", idParaExcluir);
-                    int linhasAfetadas = cmd.ExecuteNonQuery();
-
-                    if (linhasAfetadas > 0)
-                    {
-                        MessageBox.Show("Registro excluído com sucesso!");
-                        ExibirInstrutores();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Registro não encontrado.");
-                    }
-                }
+                MessageBox.Show("Registro excluído com sucesso!");
+                ExibirInstrutores();
             }
-            catch (Exception ex)
+            else
             {
-                MessageBox.Show("Erro: " + ex.Message);
-            }
-            finally
-            {
-                banco.Desconectar(con);
+                MessageBox.Show("Erro ao excluir registro.");
             }
         }
+
 
         private void BtnVoltar_Click(object sender, EventArgs e)
         {
@@ -86,34 +63,17 @@ namespace projeto_academia
 
         private void ExibirInstrutores()
         {
-            MySqlConnection? con = null;
+            var instr = new projeto_academia.Model.Instrutor();
             try
             {
-                con = banco.ObterConexao();
-                if (!banco.ConexaoAberta(con))
-                {
-                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string comandoSQL = "SELECT id_instrutor, nome, especialidade, telefone FROM instrutor";
-
-                using (MySqlCommand cmd = new MySqlCommand(comandoSQL, con))
-                using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
-                {
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dataGridView1.DataSource = dt;
-                }
+                DataTable dt = instr.ListarInstrutores();
+                dataGridView1.DataSource = dt;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
-            }
-            finally
-            {
-                banco.Desconectar(con);
+                MessageBox.Show("Erro ao carregar instrutores: " + ex.Message);
             }
         }
+
     }
 }

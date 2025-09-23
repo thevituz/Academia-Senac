@@ -7,7 +7,7 @@ namespace projeto_academia.Model
     public class Banco
     {
         private const string SERVER = "localhost",
-                             PORT = "49170",
+                             PORT = "3306",
                              DATABASE = "academia",
                              UID = "root",
                              PWD = "";

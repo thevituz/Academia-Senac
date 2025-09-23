@@ -26,35 +26,18 @@ namespace projeto_academia
 
         private void ExibirAlunos()
         {
-            MySqlConnection? con = null;
+            var aluno = new projeto_academia.Model.Aluno();
             try
             {
-                con = banco.ObterConexao();
-                if (!banco.ConexaoAberta(con))
-                {
-                    MessageBox.Show("Não foi possível conectar ao banco de dados.", "Erro", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
-
-                string comandoSQL = "SELECT id_aluno, nome, endereco, telefone FROM aluno";
-
-                using (MySqlCommand cmd = new MySqlCommand(comandoSQL, con))
-                using (MySqlDataAdapter da = new MySqlDataAdapter(cmd))
-                {
-                    DataTable dt = new DataTable();
-                    da.Fill(dt);
-                    dataGridView1.DataSource = dt;
-                }
+                DataTable dt = aluno.ListarAlunos();
+                dataGridView1.DataSource = dt;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erro ao carregar dados: " + ex.Message);
-            }
-            finally
-            {
-                banco.Desconectar(con);
+                MessageBox.Show("Erro ao carregar alunos: " + ex.Message);
             }
         }
+
 
         private void button1_Click(object sender, EventArgs e) { }
 
